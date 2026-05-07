@@ -1,0 +1,140 @@
+{
+  "app": {
+    "name": "Cognitia",
+    "tagline": "Pendamping CBT pribadimu — rewire satu pikiran sekaligus."
+  },
+  "nav": {
+    "dashboard": "Beranda",
+    "new": "Catatan baru",
+    "entries": "Riwayat",
+    "insights": "Wawasan",
+    "settings": "Pengaturan"
+  },
+  "actions": {
+    "back": "Kembali",
+    "next": "Lanjut",
+    "save": "Simpan",
+    "saveAndExit": "Simpan & keluar",
+    "saveAndComplete": "Simpan & selesai",
+    "saveAsDraft": "Simpan sebagai draf",
+    "delete": "Hapus",
+    "edit": "Ubah",
+    "cancel": "Batal",
+    "skip": "Lewati",
+    "downloadPdf": "Unduh PDF",
+    "exporting": "Mengekspor…"
+  },
+  "dashboard": {
+    "greeting": "Selamat datang kembali.",
+    "subtitle": "Tempat tenang untuk melihat pikiranmu.",
+    "newEntry": "Mulai catatan baru",
+    "recent": "Catatan terakhir",
+    "empty": "Belum ada catatan — ABC pertamamu tinggal satu klik.",
+    "streakCurrent": "Streak saat ini",
+    "streakLongest": "Streak terpanjang",
+    "totalEntries": "Total catatan",
+    "completed": "Selesai",
+    "days": "hari",
+    "day": "hari"
+  },
+  "stepper": {
+    "step": "Langkah",
+    "of": "dari",
+    "consequences": "Konsekuensi",
+    "activating": "Peristiwa",
+    "belief": "Pikiran",
+    "distortions": "Distorsi",
+    "testing": "Uji"
+  },
+  "consequences": {
+    "title": "Bagaimana perasaanmu sekarang?",
+    "subtitle": "Mulai dari yang paling terasa. Pilih emosi yang muncul dan seberapa kuat.",
+    "emotions": "Emosi",
+    "intensity": "Intensitas",
+    "behavior": "Apa yang kamu lakukan, atau ingin lakukan?",
+    "behaviorPlaceholder": "Menghindari telepon. Diam di kasur. Marah ke orang. Apa pun boleh."
+  },
+  "activating": {
+    "title": "Ada situasi apa?",
+    "subtitle": "Pemicunya — situasi yang memunculkan ini. Cukup faktanya.",
+    "situation": "Situasinya",
+    "situationPlaceholder": "Ceritakan apa yang terjadi, seperti ke teman dekat.",
+    "location": "Lokasi (opsional)",
+    "people": "Orang yang terlibat (opsional)",
+    "date": "Tanggal"
+  },
+  "belief": {
+    "title": "Pikiran otomatis apa yang muncul?",
+    "subtitle": "Hal pertama yang dikatakan pikiranmu. Jangan disaring dulu.",
+    "thought": "Pikirannya",
+    "thoughtPlaceholder": "Aku bakal gagal. Mereka benci aku. Aku selalu mengacau.",
+    "tags": "Tag pikiran",
+    "tagAutomatic": "otomatis",
+    "tagIrrational": "irasional",
+    "tagUnhelpful": "tidak membantu"
+  },
+  "distortions": {
+    "title": "Pola mana yang kamu kenali?",
+    "subtitle": "Pilih yang cocok. Boleh tidak pilih sama sekali — ini buat kamu, bukan ujian.",
+    "example": "Contoh"
+  },
+  "testing": {
+    "title": "Yuk uji pikirannya sama-sama.",
+    "evidenceFor": "Bukti yang mendukung pikiran ini",
+    "evidenceAgainst": "Bukti yang melawan pikiran ini",
+    "evidencePlaceholder": "Satu atau dua catatan saja sudah cukup.",
+    "realityTest": "Uji realitas",
+    "realityPlaceholder": "Aku berpikir aku [X]. Ada bukti dalam hidupku ketika aku merasa [X]?",
+    "pragmatic": "Cek pragmatis",
+    "pragmaticPlaceholder": "Dengan pola pikir ini, apakah pola pikir itu akan membantuku mencapai tujuan (tenang)?",
+    "alternative": "Tindakan alternatif",
+    "alternativePlaceholder": "Apa lagi yang bisa kulakukan/kupikirkan untuk memperbaiki situasi ini?",
+    "reframed": "Pikiran yang dibingkai ulang",
+    "reframedPlaceholder": "Pikiran baru yang lebih seimbang yang ingin kamu pegang."
+  },
+  "summary": {
+    "title": "Ini yang kamu tulis.",
+    "subtitle": "Peta kecil dari satu momen.",
+    "noDistortions": "Tidak ada distorsi yang ditandai.",
+    "noEmotions": "Tidak ada emosi yang ditandai."
+  },
+  "entries": {
+    "title": "Riwayat",
+    "search": "Cari catatan…",
+    "filterDistortion": "Saring berdasarkan distorsi",
+    "filterEmotion": "Saring berdasarkan emosi",
+    "all": "Semua",
+    "draft": "Draf",
+    "complete": "Selesai",
+    "empty": "Tidak ada catatan yang cocok.",
+    "deleteConfirm": "Pindahkan catatan ini ke tong sampah?"
+  },
+  "insights": {
+    "title": "Wawasan",
+    "subtitle": "Pola dari waktu ke waktu. Lihat dengan lembut.",
+    "distortionFrequency": "Frekuensi distorsi",
+    "emotionTrend": "Tren emosi",
+    "calendarHeatmap": "90 hari terakhir",
+    "reframeRate": "Tingkat reframe",
+    "noData": "Datanya belum cukup."
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "language": "Bahasa",
+    "theme": "Tema",
+    "themeLight": "Terang",
+    "themeDark": "Gelap",
+    "themeAuto": "Auto",
+    "reminder": "Pengingat harian",
+    "reminderHelp": "Kapan kamu ingin diingatkan dengan lembut untuk check-in.",
+    "pin": "Kunci aplikasi (PIN)",
+    "pinHelp": "Opsional. Kosongkan untuk menghapus.",
+    "pinSet": "PIN sudah diatur",
+    "pinNone": "Tanpa PIN"
+  },
+  "shapes": {
+    "circle": "Lingkaran — Konsekuensi",
+    "triangle": "Segitiga — Peristiwa",
+    "square": "Kotak — Pikiran"
+  }
+}

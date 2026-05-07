@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-canvas text-ink antialiased font-sans;
+  }
+  .dark body {
+    @apply bg-zinc-900 text-zinc-100;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-zinc-200/70 bg-white/70 p-5 shadow-sm backdrop-blur;
+  }
+  .dark .card {
+    @apply border-zinc-700/70 bg-zinc-800/60;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium transition;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-white hover:bg-zinc-800 disabled:opacity-50;
+  }
+  .dark .btn-primary {
+    @apply bg-white text-ink hover:bg-zinc-200;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-ink hover:bg-zinc-100;
+  }
+  .dark .btn-ghost {
+    @apply text-zinc-200 hover:bg-zinc-800;
+  }
+  .input {
+    @apply w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ink/20;
+  }
+  .dark .input {
+    @apply border-zinc-700 bg-zinc-800 text-zinc-100;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700;
+  }
+  .dark .chip {
+    @apply border-zinc-700 bg-zinc-800 text-zinc-300;
+  }
+}

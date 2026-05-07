@@ -1,0 +1,140 @@
+{
+  "app": {
+    "name": "Cognitia",
+    "tagline": "Your personal CBT companion — rewire one thought at a time."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "new": "New entry",
+    "entries": "History",
+    "insights": "Insights",
+    "settings": "Settings"
+  },
+  "actions": {
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "saveAndExit": "Save & exit",
+    "saveAndComplete": "Save & complete",
+    "saveAsDraft": "Save as draft",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "skip": "Skip",
+    "downloadPdf": "Download PDF",
+    "exporting": "Exporting…"
+  },
+  "dashboard": {
+    "greeting": "Welcome back.",
+    "subtitle": "A quiet place to look at your thoughts.",
+    "newEntry": "Start a new entry",
+    "recent": "Recent entries",
+    "empty": "No entries yet — your first ABC is one click away.",
+    "streakCurrent": "Current streak",
+    "streakLongest": "Longest streak",
+    "totalEntries": "Total entries",
+    "completed": "Completed",
+    "days": "days",
+    "day": "day"
+  },
+  "stepper": {
+    "step": "Step",
+    "of": "of",
+    "consequences": "Consequences",
+    "activating": "Event",
+    "belief": "Thought",
+    "distortions": "Distortions",
+    "testing": "Test"
+  },
+  "consequences": {
+    "title": "How are you feeling right now?",
+    "subtitle": "Start where it hurts. Pick the emotions you notice and how strong they feel.",
+    "emotions": "Emotions",
+    "intensity": "Intensity",
+    "behavior": "What did you do, or want to do?",
+    "behaviorPlaceholder": "Avoided the call. Stayed in bed. Snapped at someone. Anything counts."
+  },
+  "activating": {
+    "title": "What happened?",
+    "subtitle": "The trigger — the situation that set this off. Just facts.",
+    "situation": "The situation",
+    "situationPlaceholder": "Describe what happened, like you'd tell a friend.",
+    "location": "Location (optional)",
+    "people": "People involved (optional)",
+    "date": "Date"
+  },
+  "belief": {
+    "title": "What automatic thought came up?",
+    "subtitle": "The first thing your mind said. Don't filter it.",
+    "thought": "The thought",
+    "thoughtPlaceholder": "I'm going to fail. They hate me. I always ruin things.",
+    "tags": "Belief tags",
+    "tagAutomatic": "automatic",
+    "tagIrrational": "irrational",
+    "tagUnhelpful": "unhelpful"
+  },
+  "distortions": {
+    "title": "Which patterns do you notice?",
+    "subtitle": "Pick any that fit. You can pick none — this is for you, not a test.",
+    "example": "Example"
+  },
+  "testing": {
+    "title": "Let's test the thought together.",
+    "evidenceFor": "Evidence supporting the belief",
+    "evidenceAgainst": "Evidence against the belief",
+    "evidencePlaceholder": "Just one or two notes is enough.",
+    "realityTest": "Reality test",
+    "realityPlaceholder": "I'm thinking I'm [X]. Is there proof in my life that I am [X] or feel [X]?",
+    "pragmatic": "Pragmatic check",
+    "pragmaticPlaceholder": "With this thought pattern, will it help me reach my goal (calmness)?",
+    "alternative": "Alternative action",
+    "alternativePlaceholder": "How else could I do or think to improve the situation?",
+    "reframed": "Reframed thought",
+    "reframedPlaceholder": "The new, more balanced thought you'd like to hold."
+  },
+  "summary": {
+    "title": "Here's what you wrote.",
+    "subtitle": "A small map of one moment.",
+    "noDistortions": "No distortions tagged.",
+    "noEmotions": "No emotions tagged."
+  },
+  "entries": {
+    "title": "History",
+    "search": "Search entries…",
+    "filterDistortion": "Filter by distortion",
+    "filterEmotion": "Filter by emotion",
+    "all": "All",
+    "draft": "Draft",
+    "complete": "Complete",
+    "empty": "No entries match.",
+    "deleteConfirm": "Move this entry to trash?"
+  },
+  "insights": {
+    "title": "Insights",
+    "subtitle": "Patterns over time. Be gentle with what you see.",
+    "distortionFrequency": "Distortion frequency",
+    "emotionTrend": "Emotion trend",
+    "calendarHeatmap": "Last 90 days",
+    "reframeRate": "Reframe rate",
+    "noData": "Not enough data yet."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeAuto": "Auto",
+    "reminder": "Daily reminder",
+    "reminderHelp": "When you'd like a gentle nudge to check in.",
+    "pin": "App lock (PIN)",
+    "pinHelp": "Optional. Leave blank to clear.",
+    "pinSet": "PIN is set",
+    "pinNone": "No PIN"
+  },
+  "shapes": {
+    "circle": "Circle — Consequences",
+    "triangle": "Triangle — Event",
+    "square": "Square — Belief"
+  }
+}
