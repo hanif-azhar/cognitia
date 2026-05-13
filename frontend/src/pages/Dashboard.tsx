@@ -7,6 +7,9 @@ import { apiClient } from "@/lib/api";
 import { useUI } from "@/stores/uiStore";
 import { formatDate } from "@/lib/utils";
 import { Circle, Square, Triangle } from "@/components/shapes/Shapes";
+import MoodCheckInCard from "@/components/dashboard/MoodCheckInCard";
+import WeeklyPatternCard from "@/components/dashboard/WeeklyPatternCard";
+import ReframeLibraryCard from "@/components/dashboard/ReframeLibraryCard";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -35,6 +38,8 @@ export default function Dashboard() {
         </Link>
       </section>
 
+      <MoodCheckInCard />
+
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <StatCard
           icon={<Flame size={18} className="text-orange-500" />}
@@ -57,6 +62,10 @@ export default function Dashboard() {
           value={`${summary?.completed_entries ?? 0}`}
         />
       </section>
+
+      <WeeklyPatternCard />
+
+      <ReframeLibraryCard />
 
       <section className="card border-l-4 border-l-amber-400">
         <div className="flex items-center gap-2 mb-2">

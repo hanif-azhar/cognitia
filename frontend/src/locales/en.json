@@ -9,6 +9,7 @@
     "entries": "History",
     "insights": "Insights",
     "wins": "Wins",
+    "library": "Library",
     "settings": "Settings"
   },
   "actions": {
@@ -150,6 +151,46 @@
     "save": "Save feedback",
     "deleteConfirm": "Remove this feedback note?",
     "editedAt": "Updated"
+  },
+  "weekly": {
+    "title": "This week's pattern",
+    "subtitle": "Top distortions from the last 7 days.",
+    "empty": "No entries this week yet.",
+    "entriesThisWeek": "Entries this week",
+    "completionRate": "Completion rate",
+    "dominantEmotion": "Dominant emotion",
+    "alert": "You've noticed {{name}} a lot this week. You're seeing it — that's the work."
+  },
+  "mood": {
+    "title": "How are you today?",
+    "subtitle": "A quick check-in. Under 10 seconds.",
+    "scoreLabel": "Today's mood",
+    "notePlaceholder": "Optional — one line, if you'd like.",
+    "save": "Save mood",
+    "edit": "Edit today",
+    "savedToday": "Today's check-in",
+    "low": "low",
+    "high": "high"
+  },
+  "library": {
+    "title": "Reframe library",
+    "subtitle": "Past-you's wisdom. Come back here when the weather turns gray.",
+    "dashboardTitle": "From your reframe library",
+    "empty": "No reframed thoughts yet. Finish an entry through the reframe step and they'll appear here.",
+    "originalThought": "Original thought",
+    "shuffle": "Reshuffle",
+    "openEntry": "Open entry"
+  },
+  "session": {
+    "title": "Session summary",
+    "subtitle": "Generate a PDF for your next therapy session.",
+    "from": "From",
+    "to": "To",
+    "generate": "Generate session summary",
+    "generating": "Generating…",
+    "preset14": "Last 14 days",
+    "preset30": "Last 30 days",
+    "preset90": "Last 90 days"
   },
   "wins": {
     "title": "Winning moments",

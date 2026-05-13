@@ -35,6 +35,7 @@ export default function Layout() {
     { to: "/", label: t("nav.dashboard"), end: true },
     { to: "/entries", label: t("nav.entries") },
     { to: "/wins", label: t("nav.wins") },
+    { to: "/reframes", label: t("nav.library") },
     { to: "/insights", label: t("nav.insights") },
     { to: "/settings", label: t("nav.settings") },
   ];

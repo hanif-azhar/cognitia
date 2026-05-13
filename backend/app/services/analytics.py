@@ -9,6 +9,7 @@ from ..schemas.analytics import (
     DistortionFrequency,
     EmotionTrendPoint,
     StreakInfo,
+    WeeklyRecap,
 )
 
 
@@ -191,4 +192,89 @@ async def summary(session: AsyncSession) -> AnalyticsSummary:
         top_distortions=top_d,
         top_emotions=top_e,
         streak=await streak(session),
+    )
+
+
+ALERT_THRESHOLD = 3
+
+
+async def weekly_recap(session: AsyncSession) -> WeeklyRecap:
+    today = date.today()
+    period_from = today - timedelta(days=6)
+    period_to = today
+
+    total = (
+        await session.execute(
+            select(func.count(Entry.id)).where(
+                and_(
+                    Entry.deleted_at.is_(None),
+                    Entry.entry_date >= period_from,
+                    Entry.entry_date <= period_to,
+                )
+            )
+        )
+    ).scalar_one()
+    completed = (
+        await session.execute(
+            select(func.count(Entry.id)).where(
+                and_(
+                    Entry.deleted_at.is_(None),
+                    Entry.is_complete.is_(True),
+                    Entry.entry_date >= period_from,
+                    Entry.entry_date <= period_to,
+                )
+            )
+        )
+    ).scalar_one()
+
+    top_d = await distortion_frequency(session, period_from, period_to, limit=3)
+    alert = next((d for d in top_d if d.count >= ALERT_THRESHOLD), None)
+
+    dominant_row = (
+        await session.execute(
+            select(
+                Emotion.id,
+                Emotion.code,
+                Emotion.name_en,
+                Emotion.name_id,
+                func.avg(Entry.emotion_intensity),
+                func.count(Entry.id),
+            )
+            .join(EntryEmotion, EntryEmotion.emotion_id == Emotion.id)
+            .join(Entry, Entry.id == EntryEmotion.entry_id)
+            .where(
+                and_(
+                    Entry.deleted_at.is_(None),
+                    Entry.entry_date >= period_from,
+                    Entry.entry_date <= period_to,
+                )
+            )
+            .group_by(Emotion.id)
+            .order_by(func.count(Entry.id).desc(), func.avg(Entry.emotion_intensity).desc())
+            .limit(1)
+        )
+    ).first()
+    dominant = (
+        EmotionTrendPoint(
+            bucket=today,
+            emotion_id=dominant_row[0],
+            code=dominant_row[1],
+            name_en=dominant_row[2],
+            name_id=dominant_row[3],
+            avg_intensity=float(dominant_row[4] or 0),
+            count=int(dominant_row[5]),
+        )
+        if dominant_row
+        else None
+    )
+
+    return WeeklyRecap(
+        period_from=period_from,
+        period_to=period_to,
+        total_entries=total,
+        completed_entries=completed,
+        completion_rate=(completed / total) if total else 0.0,
+        top_distortions=top_d,
+        dominant_emotion=dominant,
+        alert_distortion=alert,
     )

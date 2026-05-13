@@ -125,6 +125,41 @@ export type WinningMomentPayload = Partial<{
   moment_date: string;
 }>;
 
+export type WeeklyRecap = {
+  period_from: string;
+  period_to: string;
+  total_entries: number;
+  completed_entries: number;
+  completion_rate: number;
+  top_distortions: DistortionFrequency[];
+  dominant_emotion: EmotionTrendPoint | null;
+  alert_distortion: DistortionFrequency | null;
+};
+
+export type DailyMood = {
+  id: string;
+  mood_date: string;
+  score: number;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type DailyMoodPayload = {
+  score: number;
+  note?: string | null;
+  mood_date?: string;
+};
+
+export type ReframeItem = {
+  entry_id: string;
+  entry_date: string;
+  reframed_thought: string;
+  automatic_thought: string | null;
+  situation: string | null;
+  distortion_ids: number[];
+};
+
 export const apiClient = {
   listEntries: async (params: Record<string, string | number | undefined> = {}) =>
     (await api.get<Entry[]>("/entries", { params })).data,
@@ -166,6 +201,31 @@ export const apiClient = {
   updateWin: async (id: string, data: WinningMomentPayload) =>
     (await api.patch<WinningMoment>(`/wins/${id}`, data)).data,
   deleteWin: async (id: string) => (await api.delete(`/wins/${id}`)).data,
+  weeklyRecap: async () =>
+    (await api.get<WeeklyRecap>("/analytics/weekly-recap")).data,
+  getTodayMood: async () =>
+    (await api.get<DailyMood | null>("/mood/today")).data,
+  listMoods: async (params: Record<string, string | number | undefined> = {}) =>
+    (await api.get<DailyMood[]>("/mood", { params })).data,
+  createMood: async (data: DailyMoodPayload) =>
+    (await api.post<DailyMood>("/mood", data)).data,
+  updateMood: async (id: string, data: Partial<DailyMoodPayload>) =>
+    (await api.patch<DailyMood>(`/mood/${id}`, data)).data,
+  listReframes: async (params: Record<string, string | number | undefined> = {}) =>
+    (await api.get<ReframeItem[]>("/reframes", { params })).data,
+  randomReframe: async () =>
+    (await api.get<ReframeItem | null>("/reframes/random")).data,
+  sessionSummaryPdf: async (
+    from: string,
+    to: string,
+    lang: "en" | "id" = "en",
+  ) =>
+    (
+      await api.get(`/analytics/session-summary/pdf`, {
+        params: { from, to, lang },
+        responseType: "blob",
+      })
+    ).data as Blob,
 };
 
 export function downloadBlob(blob: Blob, filename: string) {

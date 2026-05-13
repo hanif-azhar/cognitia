@@ -21,7 +21,7 @@ from reportlab.platypus import (
     TableStyle,
 )
 
-from ..models import Distortion, Emotion, Entry
+from ..models import Distortion, Emotion, Entry, TherapistFeedback, WinningMoment
 from ..schemas.analytics import AnalyticsSummary, DistortionFrequency, EmotionTrendPoint
 
 Lang = Literal["en", "id"]
@@ -80,6 +80,43 @@ I18N: dict[str, dict[Lang, str]] = {
     "distortion_frequency": {"en": "Distortion frequency", "id": "Frekuensi distorsi"},
     "no_data": {"en": "Not enough data yet.", "id": "Datanya belum cukup."},
     "count": {"en": "count", "id": "jumlah"},
+    "session_summary_title": {
+        "en": "Session Summary",
+        "id": "Ringkasan Sesi",
+    },
+    "session_period": {"en": "Period", "id": "Periode"},
+    "session_intro": {
+        "en": "Prepared for review with a mental health professional.",
+        "id": "Disusun untuk ditinjau bersama tenaga kesehatan mental.",
+    },
+    "entries_in_period": {
+        "en": "Completed entries in this period",
+        "id": "Catatan selesai pada periode ini",
+    },
+    "wins_in_period": {
+        "en": "Winning moments in this period",
+        "id": "Momen kemenangan pada periode ini",
+    },
+    "feedback_in_period": {
+        "en": "Therapist feedback in this period",
+        "id": "Masukan terapis pada periode ini",
+    },
+    "no_entries": {
+        "en": "No completed entries in this period.",
+        "id": "Tidak ada catatan selesai pada periode ini.",
+    },
+    "no_wins": {
+        "en": "No wins logged in this period.",
+        "id": "Tidak ada kemenangan tercatat pada periode ini.",
+    },
+    "no_feedback": {
+        "en": "No therapist feedback in this period.",
+        "id": "Tidak ada masukan terapis pada periode ini.",
+    },
+    "for_reviewer": {
+        "en": "Cognitia · Session summary for therapist review.",
+        "id": "Cognitia · Ringkasan sesi untuk peninjauan terapis.",
+    },
 }
 
 
@@ -597,6 +634,233 @@ class _BarFlowable(Flowable):
         fill_w = self.width * (self.value / self.max_value)
         c.setFillColor(self.color)
         c.roundRect(0, 0, max(2, fill_w), self.height, 2, fill=1, stroke=0)
+
+
+def render_session_summary_pdf(
+    summary: AnalyticsSummary,
+    distortion_freq: list[DistortionFrequency],
+    period_from: date,
+    period_to: date,
+    entries: list[Entry],
+    entry_distortion_map: dict[str, list[Distortion]],
+    entry_emotion_map: dict[str, list[Emotion]],
+    wins: list[WinningMoment],
+    feedback_items: list[tuple[TherapistFeedback, Entry]],
+    lang: Lang = "en",
+) -> bytes:
+    styles = _styles()
+    buf = BytesIO()
+    footer = _tr("for_reviewer", lang)
+    doc = _build_doc(buf, footer)
+
+    story: list[Flowable] = []
+
+    # Header
+    story.append(Paragraph(_esc(_tr("session_summary_title", lang)), styles["h1"]))
+    period_str = f"{period_from.isoformat()} → {period_to.isoformat()}"
+    story.append(
+        Paragraph(
+            f"{_tr('session_period', lang)}: {period_str}  ·  "
+            f"{_tr('generated', lang)}: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}",
+            styles["meta"],
+        )
+    )
+    story.append(Paragraph(_esc(_tr("session_intro", lang)), styles["meta"]))
+    story.append(HRFlowable(width="100%", thickness=0.5, color=COLOR_RULE, spaceAfter=10))
+
+    # Summary tiles
+    reframe_pct = f"{round((summary.reframe_rate or 0) * 100)}%"
+    tiles = [
+        [
+            _stat(_tr("total_entries", lang), str(summary.total_entries), styles),
+            _stat(_tr("completed_entries", lang), str(summary.completed_entries), styles),
+            _stat(_tr("reframe_rate", lang), reframe_pct, styles),
+            _stat(
+                _tr("current_streak", lang),
+                f"{summary.streak.current_streak} {_tr('days', lang)}",
+                styles,
+            ),
+        ]
+    ]
+    col_w = (A4[0] - 40 * mm) / 4
+    tile_tbl = Table(tiles, colWidths=[col_w] * 4)
+    tile_tbl.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                ("TOPPADDING", (0, 0), (-1, -1), 10),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FAFAFA")),
+                ("BOX", (0, 0), (-1, -1), 0.4, COLOR_RULE),
+                ("INNERGRID", (0, 0), (-1, -1), 0.4, COLOR_RULE),
+            ]
+        )
+    )
+    story.append(tile_tbl)
+    story.append(Spacer(1, 14))
+
+    # Top distortions
+    story.append(Paragraph(_esc(_tr("top_distortions", lang)), styles["section"]))
+    if not distortion_freq:
+        story.append(Paragraph(_esc(_tr("no_data", lang)), styles["body"]))
+    else:
+        max_count = max(d.count for d in distortion_freq) or 1
+        rows: list[list] = []
+        for d in distortion_freq[:3]:
+            name = d.name_id if lang == "id" else d.name_en
+            bar = _BarFlowable(d.count, max_count, width=80, height=8, color=COLOR_SQUARE)
+            rows.append([Paragraph(_esc(name), styles["body"]), Paragraph(str(d.count), styles["body"]), bar])
+        tbl = Table(rows, colWidths=[(A4[0] - 40 * mm) - 120, 30, 90])
+        tbl.setStyle(
+            TableStyle(
+                [
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("LINEBELOW", (0, 0), (-1, -1), 0.3, COLOR_RULE),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 4),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+                    ("TOPPADDING", (0, 0), (-1, -1), 4),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ]
+            )
+        )
+        story.append(tbl)
+
+    story.append(Spacer(1, 12))
+
+    # Top emotions
+    if summary.top_emotions:
+        story.append(Paragraph(_esc(_tr("top_emotions", lang)), styles["section"]))
+        max_count = max(e.count for e in summary.top_emotions) or 1
+        rows = []
+        for e in summary.top_emotions[:3]:
+            name = e.name_id if lang == "id" else e.name_en
+            bar = _BarFlowable(e.count, max_count, width=80, height=8, color=COLOR_CIRCLE)
+            rows.append(
+                [
+                    Paragraph(_esc(name), styles["body"]),
+                    Paragraph(str(e.count), styles["body"]),
+                    Paragraph(f"{e.avg_intensity:.1f}/10", styles["body"]),
+                    bar,
+                ]
+            )
+        tbl = Table(rows, colWidths=[(A4[0] - 40 * mm) - 190, 40, 60, 90])
+        tbl.setStyle(
+            TableStyle(
+                [
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("LINEBELOW", (0, 0), (-1, -1), 0.3, COLOR_RULE),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 4),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+                    ("TOPPADDING", (0, 0), (-1, -1), 4),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ]
+            )
+        )
+        story.append(tbl)
+
+    story.append(Spacer(1, 14))
+
+    # Entries
+    story.append(Paragraph(_esc(_tr("entries_in_period", lang)), styles["section"]))
+    if not entries:
+        story.append(Paragraph(_esc(_tr("no_entries", lang)), styles["body"]))
+    else:
+        for e in entries:
+            distortions = entry_distortion_map.get(e.id, [])
+            emotions = entry_emotion_map.get(e.id, [])
+            distortion_names = [(d.name_id if lang == "id" else d.name_en) for d in distortions]
+            emotion_names = [(em.name_id if lang == "id" else em.name_en) for em in emotions]
+            story.append(_entry_card(e, distortion_names, emotion_names, styles, lang))
+            story.append(Spacer(1, 8))
+
+    story.append(Spacer(1, 6))
+
+    # Winning moments
+    story.append(Paragraph(_esc(_tr("wins_in_period", lang)), styles["section"]))
+    if not wins:
+        story.append(Paragraph(_esc(_tr("no_wins", lang)), styles["body"]))
+    else:
+        for w in wins:
+            head = f"<b>{w.moment_date.isoformat()}</b>"
+            if w.tag:
+                head += f"  ·  <font color='#6B7280'>{_esc(w.tag)}</font>"
+            story.append(Paragraph(head, styles["body"]))
+            story.append(Paragraph(_esc(w.text).replace("\n", "<br/>"), styles["body"]))
+            story.append(Spacer(1, 4))
+
+    story.append(Spacer(1, 6))
+
+    # Therapist feedback
+    story.append(Paragraph(_esc(_tr("feedback_in_period", lang)), styles["section"]))
+    if not feedback_items:
+        story.append(Paragraph(_esc(_tr("no_feedback", lang)), styles["body"]))
+    else:
+        for fb, entry in feedback_items:
+            head = (
+                f"<b>{_esc(fb.author_name)}</b>  ·  "
+                f"<font color='#6B7280'>{fb.created_at.date().isoformat()} · "
+                f"{_tr('entry_date', lang)} {entry.entry_date.isoformat()}</font>"
+            )
+            story.append(Paragraph(head, styles["body"]))
+            story.append(Paragraph(_esc(fb.note).replace("\n", "<br/>"), styles["body"]))
+            story.append(Spacer(1, 6))
+
+    doc.build(
+        story,
+        onFirstPage=lambda c, d: _draw_footer(c, d, footer),
+        onLaterPages=lambda c, d: _draw_footer(c, d, footer),
+    )
+    return buf.getvalue()
+
+
+def _entry_card(
+    entry: Entry,
+    distortion_names: list[str],
+    emotion_names: list[str],
+    styles: dict[str, ParagraphStyle],
+    lang: Lang,
+) -> Flowable:
+    inner: list[Flowable] = []
+    head = (
+        f"<b>{entry.entry_date.isoformat()}</b>"
+        f"  ·  <font color='#6B7280'>{_tr('intensity', lang)} {entry.emotion_intensity}/10</font>"
+    )
+    inner.append(Paragraph(head, styles["body"]))
+    if emotion_names:
+        inner.append(_chips(emotion_names))
+        inner.append(Spacer(1, 4))
+    if entry.situation:
+        inner.append(Paragraph(_esc(_tr("situation", lang)).upper(), styles["label"]))
+        inner.append(Paragraph(_esc(entry.situation).replace("\n", "<br/>"), styles["body"]))
+    if entry.automatic_thought:
+        inner.append(Paragraph(_esc(_tr("automatic_thought", lang)).upper(), styles["label"]))
+        inner.append(
+            Paragraph(f"&ldquo;{_esc(entry.automatic_thought)}&rdquo;", styles["quote"])
+        )
+    if distortion_names:
+        inner.append(Paragraph(_esc(_tr("distortions", lang)).upper(), styles["label"]))
+        inner.append(_chips(distortion_names))
+        inner.append(Spacer(1, 4))
+    if entry.reframed_thought:
+        inner.append(Paragraph(_esc(_tr("reframed_thought", lang)).upper(), styles["label"]))
+        inner.append(Paragraph(_esc(entry.reframed_thought).replace("\n", "<br/>"), styles["reframe"]))
+
+    tbl = Table([[inner]], colWidths=[A4[0] - 40 * mm])
+    tbl.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FAFAFA")),
+                ("BOX", (0, 0), (-1, -1), 0.4, COLOR_RULE),
+                ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                ("TOPPADDING", (0, 0), (-1, -1), 10),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+            ]
+        )
+    )
+    return KeepTogether(tbl)
 
 
 def slugify_filename(s: str | None, fallback: str) -> str:

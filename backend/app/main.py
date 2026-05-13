@@ -11,6 +11,8 @@ from .routers import (
     emotions,
     entries,
     feedback,
+    mood,
+    reframes,
     settings as settings_router,
     wins,
 )
@@ -54,3 +56,5 @@ app.include_router(analytics.router, prefix=api_prefix)
 app.include_router(settings_router.router, prefix=api_prefix)
 app.include_router(feedback.router, prefix=api_prefix)
 app.include_router(wins.router, prefix=api_prefix)
+app.include_router(mood.router, prefix=api_prefix)
+app.include_router(reframes.router, prefix=api_prefix)

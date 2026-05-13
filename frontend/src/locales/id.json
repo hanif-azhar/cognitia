@@ -9,6 +9,7 @@
     "entries": "Riwayat",
     "insights": "Wawasan",
     "wins": "Kemenangan",
+    "library": "Perpustakaan",
     "settings": "Pengaturan"
   },
   "actions": {
@@ -150,6 +151,46 @@
     "save": "Simpan masukan",
     "deleteConfirm": "Hapus catatan masukan ini?",
     "editedAt": "Diperbarui"
+  },
+  "weekly": {
+    "title": "Pola minggu ini",
+    "subtitle": "Distorsi teratas dari 7 hari terakhir.",
+    "empty": "Belum ada catatan minggu ini.",
+    "entriesThisWeek": "Catatan minggu ini",
+    "completionRate": "Tingkat penyelesaian",
+    "dominantEmotion": "Emosi dominan",
+    "alert": "Kamu banyak melihat {{name}} minggu ini. Kamu menyadarinya — itu sudah pekerjaannya."
+  },
+  "mood": {
+    "title": "Bagaimana harimu hari ini?",
+    "subtitle": "Check-in singkat. Di bawah 10 detik.",
+    "scoreLabel": "Mood hari ini",
+    "notePlaceholder": "Opsional — satu baris, kalau mau.",
+    "save": "Simpan mood",
+    "edit": "Ubah hari ini",
+    "savedToday": "Check-in hari ini",
+    "low": "rendah",
+    "high": "tinggi"
+  },
+  "library": {
+    "title": "Perpustakaan reframe",
+    "subtitle": "Kebijaksanaan dari kamu yang lalu. Datang ke sini ketika hari terasa kelabu.",
+    "dashboardTitle": "Dari perpustakaan reframe-mu",
+    "empty": "Belum ada pikiran yang dibingkai ulang. Selesaikan satu catatan sampai langkah reframe dan akan muncul di sini.",
+    "originalThought": "Pikiran asli",
+    "shuffle": "Acak ulang",
+    "openEntry": "Buka catatan"
+  },
+  "session": {
+    "title": "Ringkasan sesi",
+    "subtitle": "Buat PDF untuk sesi terapi berikutnya.",
+    "from": "Dari",
+    "to": "Sampai",
+    "generate": "Buat ringkasan sesi",
+    "generating": "Membuat…",
+    "preset14": "14 hari terakhir",
+    "preset30": "30 hari terakhir",
+    "preset90": "90 hari terakhir"
   },
   "wins": {
     "title": "Momen kemenangan",
