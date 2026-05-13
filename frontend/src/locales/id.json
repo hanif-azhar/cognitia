@@ -8,6 +8,7 @@
     "new": "Catatan baru",
     "entries": "Riwayat",
     "insights": "Wawasan",
+    "wins": "Kemenangan",
     "settings": "Pengaturan"
   },
   "actions": {
@@ -136,5 +137,33 @@
     "circle": "Lingkaran — Konsekuensi",
     "triangle": "Segitiga — Peristiwa",
     "square": "Kotak — Pikiran"
+  },
+  "feedback": {
+    "title": "Masukan terapis",
+    "subtitle": "Catatan dari terapis, konselor, atau orang terpercaya tentang catatan ini.",
+    "empty": "Belum ada masukan.",
+    "addTitle": "Tambah masukan",
+    "authorName": "Nama pemberi masukan",
+    "authorPlaceholder": "mis. Dr. Sari",
+    "note": "Catatan",
+    "notePlaceholder": "Refleksi, pertanyaan, atau arahan untuk catatan ini.",
+    "save": "Simpan masukan",
+    "deleteConfirm": "Hapus catatan masukan ini?",
+    "editedAt": "Diperbarui"
+  },
+  "wins": {
+    "title": "Momen kemenangan",
+    "subtitle": "Hal-hal kecil dan besar yang patut diingat. Kembali ke sini saat hari terasa kelabu.",
+    "empty": "Belum ada kemenangan tercatat. Yang kecil pun berarti.",
+    "addPlaceholder": "Hal baik yang terjadi hari ini…",
+    "tag": "Label (opsional)",
+    "tagPlaceholder": "kerja, keluarga, kesehatan…",
+    "logWin": "Catat kemenangan",
+    "todayPrompt": "Apa yang berjalan baik hari ini?",
+    "cherishTitle": "Kemenangan untuk diingat",
+    "cherishEmpty": "Catat kemenangan pertamamu — nanti akan muncul lagi di sini di hari lain.",
+    "shuffle": "Tampilkan lain",
+    "deleteConfirm": "Hapus momen kemenangan ini?",
+    "date": "Tanggal"
   }
 }

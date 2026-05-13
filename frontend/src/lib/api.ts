@@ -96,6 +96,35 @@ export type AnalyticsSummary = {
   streak: StreakInfo;
 };
 
+export type TherapistFeedback = {
+  id: string;
+  entry_id: string;
+  author_name: string;
+  note: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type TherapistFeedbackPayload = {
+  author_name: string;
+  note: string;
+};
+
+export type WinningMoment = {
+  id: string;
+  text: string;
+  tag: string | null;
+  moment_date: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type WinningMomentPayload = Partial<{
+  text: string;
+  tag: string | null;
+  moment_date: string;
+}>;
+
 export const apiClient = {
   listEntries: async (params: Record<string, string | number | undefined> = {}) =>
     (await api.get<Entry[]>("/entries", { params })).data,
@@ -121,6 +150,22 @@ export const apiClient = {
       .data as Blob,
   insightsPdf: async (lang: "en" | "id" = "en") =>
     (await api.get(`/analytics/pdf`, { params: { lang }, responseType: "blob" })).data as Blob,
+  listFeedback: async (entryId: string) =>
+    (await api.get<TherapistFeedback[]>(`/entries/${entryId}/feedback`)).data,
+  createFeedback: async (entryId: string, data: TherapistFeedbackPayload) =>
+    (await api.post<TherapistFeedback>(`/entries/${entryId}/feedback`, data)).data,
+  updateFeedback: async (id: string, data: Partial<TherapistFeedbackPayload>) =>
+    (await api.patch<TherapistFeedback>(`/feedback/${id}`, data)).data,
+  deleteFeedback: async (id: string) => (await api.delete(`/feedback/${id}`)).data,
+  listWins: async (params: Record<string, string | number | undefined> = {}) =>
+    (await api.get<WinningMoment[]>("/wins", { params })).data,
+  randomWin: async () =>
+    (await api.get<WinningMoment | null>("/wins/random")).data,
+  createWin: async (data: WinningMomentPayload) =>
+    (await api.post<WinningMoment>("/wins", data)).data,
+  updateWin: async (id: string, data: WinningMomentPayload) =>
+    (await api.patch<WinningMoment>(`/wins/${id}`, data)).data,
+  deleteWin: async (id: string) => (await api.delete(`/wins/${id}`)).data,
 };
 
 export function downloadBlob(blob: Blob, filename: string) {

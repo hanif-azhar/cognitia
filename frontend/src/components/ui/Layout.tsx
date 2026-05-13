@@ -18,6 +18,7 @@ export default function Layout() {
   }, [language, i18n]);
 
   useEffect(() => {
+
     function onKey(e: KeyboardEvent) {
       const target = e.target as HTMLElement;
       if (target?.tagName === "INPUT" || target?.tagName === "TEXTAREA") return;
@@ -33,6 +34,7 @@ export default function Layout() {
   const navItems = [
     { to: "/", label: t("nav.dashboard"), end: true },
     { to: "/entries", label: t("nav.entries") },
+    { to: "/wins", label: t("nav.wins") },
     { to: "/insights", label: t("nav.insights") },
     { to: "/settings", label: t("nav.settings") },
   ];

@@ -5,7 +5,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .database import AsyncSessionLocal, Base, engine
-from .routers import analytics, distortions, emotions, entries, settings as settings_router
+from .routers import (
+    analytics,
+    distortions,
+    emotions,
+    entries,
+    feedback,
+    settings as settings_router,
+    wins,
+)
 from .seed.distortions import seed_distortions
 from .seed.emotions import seed_emotions
 from .seed.settings import seed_settings
@@ -44,3 +52,5 @@ app.include_router(distortions.router, prefix=api_prefix)
 app.include_router(emotions.router, prefix=api_prefix)
 app.include_router(analytics.router, prefix=api_prefix)
 app.include_router(settings_router.router, prefix=api_prefix)
+app.include_router(feedback.router, prefix=api_prefix)
+app.include_router(wins.router, prefix=api_prefix)

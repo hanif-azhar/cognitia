@@ -8,6 +8,7 @@
     "new": "New entry",
     "entries": "History",
     "insights": "Insights",
+    "wins": "Wins",
     "settings": "Settings"
   },
   "actions": {
@@ -136,5 +137,33 @@
     "circle": "Circle — Consequences",
     "triangle": "Triangle — Event",
     "square": "Square — Belief"
+  },
+  "feedback": {
+    "title": "Therapist feedback",
+    "subtitle": "Notes from a therapist, counselor, or trusted reviewer about this entry.",
+    "empty": "No feedback yet.",
+    "addTitle": "Add feedback",
+    "authorName": "Reviewer name",
+    "authorPlaceholder": "e.g., Dr. Sari",
+    "note": "Note",
+    "notePlaceholder": "Reflections, questions, or guidance for this entry.",
+    "save": "Save feedback",
+    "deleteConfirm": "Remove this feedback note?",
+    "editedAt": "Updated"
+  },
+  "wins": {
+    "title": "Winning moments",
+    "subtitle": "Small and big wins worth remembering. Come back here when the weather turns gray.",
+    "empty": "No wins logged yet. Even a small one counts.",
+    "addPlaceholder": "Something good that happened today…",
+    "tag": "Tag (optional)",
+    "tagPlaceholder": "work, family, health…",
+    "logWin": "Log a win",
+    "todayPrompt": "What went well today?",
+    "cherishTitle": "A win to cherish",
+    "cherishEmpty": "Log your first win — it will reappear here on a future day.",
+    "shuffle": "Show another",
+    "deleteConfirm": "Delete this winning moment?",
+    "date": "Date"
   }
 }

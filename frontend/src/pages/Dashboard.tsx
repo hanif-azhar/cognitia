@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { Plus, Flame, BookOpen, CheckCircle2 } from "lucide-react";
+import { Plus, Flame, BookOpen, CheckCircle2, Sparkles, RefreshCw } from "lucide-react";
 
 import { apiClient } from "@/lib/api";
 import { useUI } from "@/stores/uiStore";
@@ -18,6 +18,10 @@ export default function Dashboard() {
   const { data: entries = [] } = useQuery({
     queryKey: ["entries", { limit: 5 }],
     queryFn: () => apiClient.listEntries({ limit: 5 }),
+  });
+  const { data: cherishWin, refetch: refetchCherish } = useQuery({
+    queryKey: ["wins", "random"],
+    queryFn: apiClient.randomWin,
   });
 
   return (
@@ -52,6 +56,47 @@ export default function Dashboard() {
           label={t("dashboard.completed")}
           value={`${summary?.completed_entries ?? 0}`}
         />
+      </section>
+
+      <section className="card border-l-4 border-l-amber-400">
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles size={18} className="text-amber-500" />
+          <h2 className="text-sm font-medium uppercase tracking-wide text-zinc-500">
+            {t("wins.cherishTitle")}
+          </h2>
+          <div className="ml-auto flex gap-2">
+            {cherishWin && (
+              <button
+                type="button"
+                className="btn-ghost px-2 py-1"
+                onClick={() => refetchCherish()}
+                aria-label={t("wins.shuffle")}
+                title={t("wins.shuffle")}
+              >
+                <RefreshCw size={14} />
+              </button>
+            )}
+            <Link to="/wins" className="btn-ghost px-2 py-1 text-sm">
+              {t("nav.wins")} →
+            </Link>
+          </div>
+        </div>
+        {cherishWin ? (
+          <>
+            <p className="font-serif text-lg whitespace-pre-wrap">{cherishWin.text}</p>
+            <p className="text-xs text-zinc-500 mt-2">
+              {formatDate(cherishWin.moment_date, language)}
+              {cherishWin.tag && <span className="ml-2 chip text-xs">{cherishWin.tag}</span>}
+            </p>
+          </>
+        ) : (
+          <p className="text-sm text-zinc-500">
+            {t("wins.cherishEmpty")}{" "}
+            <Link to="/wins" className="underline">
+              {t("wins.logWin")}
+            </Link>
+          </p>
+        )}
       </section>
 
       <section>

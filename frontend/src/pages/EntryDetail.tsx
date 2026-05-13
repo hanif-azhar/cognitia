@@ -7,6 +7,7 @@ import { apiClient, downloadBlob } from "@/lib/api";
 import { useUI } from "@/stores/uiStore";
 import { formatDate } from "@/lib/utils";
 import { Circle, Square, Triangle } from "@/components/shapes/Shapes";
+import TherapistFeedbackSection from "@/components/entry/TherapistFeedbackSection";
 
 export default function EntryDetail() {
   const { id } = useParams();
@@ -169,6 +170,8 @@ export default function EntryDetail() {
           <p className="font-serif text-lg whitespace-pre-wrap">{entry.reframed_thought}</p>
         </div>
       )}
+
+      <TherapistFeedbackSection entryId={entry.id} />
     </div>
   );
 }
